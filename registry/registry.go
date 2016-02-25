@@ -170,7 +170,7 @@ func NewTransport(tlsConfig *tls.Config) *http.Transport {
 		Dial: (&net.Dialer{
 			Timeout:   30 * time.Second,
 			KeepAlive: 30 * time.Second,
-			DualStack: true,
+			DualStack: false, //DualStack: true,
 		}).Dial,
 		TLSHandshakeTimeout: 10 * time.Second,
 		TLSClientConfig:     tlsConfig,
