@@ -100,6 +100,15 @@ func CalculateLayerChecksums(root string, ls checksumCalculator, mappings map[st
 	graphDir := filepath.Join(root, graphDirName)
 	// spawn some extra workers also for maximum performance because the process is bounded by both cpu and io
 	workers := runtime.NumCPU() * 3
+	workersEnv := os.Getenv("WORKERS")
+	if workersEnv != "" {
+		nWorkers, err := strconv.Atoi(workersEnv)
+		if err != nil {
+			logrus.Fatalf("could not parse $WORKERS (%q)", workersEnv)
+			return
+		}
+		workers = nWorkers
+	}
 	workQueue := make(chan string, workers)
 
 	wg := sync.WaitGroup{}
